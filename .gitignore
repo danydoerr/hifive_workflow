@@ -1,0 +1,11 @@
+**/*.swp
+*.fend
+.snakemake/**
+bams/**
+dataset.cfg
+hic_maps/**
+hifive_data/**
+logs/**
+scripts/*.pyc
+stats/**
+*.bed
