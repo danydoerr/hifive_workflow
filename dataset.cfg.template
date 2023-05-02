@@ -1,0 +1,14 @@
+[global]
+# MUST BE FILLED OUT
+genome_name = 
+restriction_enzyme = 
+fragments_file = 
+# list chromosomes, separated by comma
+restrict_chromosomes = 
+
+## fill out for each replicate / condition
+#[replicate_id:condition]
+#1 = /path/to/read/pair/1.bam
+#2 = /path/to/read/pair/2.bam
+
+

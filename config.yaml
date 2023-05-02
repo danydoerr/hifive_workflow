@@ -1,0 +1,11 @@
+bam_dir: bams
+cooler_bin: cooler
+dataset_file: dataset.cfg
+hic_maps_dir: hic_maps
+hifive_project_dir: hifive_data
+min_interactions: [20]
+normalization_algorithms: ['binning-probability']
+resolutions: [25000] 
+script_dir: scripts
+super_resolution_factors: [2] 
+stats_dir: stats
