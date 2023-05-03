@@ -21,6 +21,7 @@ RESOLUTIONS = config['resolutions']
 RESTRICTION_DIGEST_FILE = DATASET.get(G, 'fragments_file')
 RESTRICTION_ENZYME = DATASET.get(G, 'restriction_enzyme')
 RESTRICT_CHROMOSOMES = DATASET.get(G, 'restrict_chromosomes', fallback='None')
+SAMTOOLS_BIN = config['samtools_bin']
 SCRIPT_DIR = config['script_dir']
 SUPER_RES = config['super_resolution_factors']
 STATS_DIR = config['stats_dir']
@@ -70,21 +71,39 @@ rule link_bam_files:
         hic_maps = chain(*[map(lambda x: x[1], DATASET.items(s)) for s in
             HIC_MAPS])
     output:
-        expand('%s/{hic_map}_{part}.bam' %BAM_DIR, hic_map=HIC_MAPS,
+        expand('%s/{hic_map}_{part}.orig.bam' %BAM_DIR, hic_map=HIC_MAPS,
                 part = ('part1', 'part2'))
     run:
         from os import symlink, path
         for m in HIC_MAPS:
             symlink(path.relpath(DATASET.get(m, '1'), BAM_DIR), \
-                    path.join(BAM_DIR, '%s_part1.bam' %m))
+                    path.join(BAM_DIR, '%s_part1.orig.bam' %m))
             symlink(path.relpath(DATASET.get(m, '2'), BAM_DIR), \
-                    path.join(BAM_DIR, '%s_part2.bam' %m))
+                    path.join(BAM_DIR, '%s_part2.orig.bam' %m))
 
 
+rule sort_bam_files:
+    input:
+        '%s/{hic_map}_{part}.orig.bam' %BAM_DIR
+    output:
+        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam' %BAM_DIR
+    shell:
+        '%s sort {input} > {output}' %SAMTOOLS_BIN
+
+rule index_bam_files:
+    input:
+        '%s/{hic_map}_{part}.bam' %BAM_DIR
+    output:
+        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam.bai' %BAM_DIR
+    shell:
+        '%s index {input}' %SAMTOOLS_BIN
+        
 rule hic_data:
     input:
         part1 = '%s/{hic_map}_part1.bam' %BAM_DIR,
         part2 = '%s/{hic_map}_part2.bam' %BAM_DIR,
+        idx1 = '%s/{hic_map}_part1.bam.bai' %BAM_DIR,
+        idx2 = '%s/{hic_map}_part2.bam.bai' %BAM_DIR,
         fend = FEND_FILE
     output:
         '%s/{hic_map,.*:.*}.data' %PRJ_DIR
@@ -100,6 +119,10 @@ rule hic_data_full:
         part1 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part1.bam' %(
                 BAM_DIR, x, wildcards.tissue), REPLICATES)),
         part2 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part2.bam' %(
+                BAM_DIR, x, wildcards.tissue), REPLICATES)),
+        idx1 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part1.bam.bai' %(
+                BAM_DIR, x, wildcards.tissue), REPLICATES)),
+        idx2 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part2.bam.bai' %(
                 BAM_DIR, x, wildcards.tissue), REPLICATES)),
         fend = FEND_FILE
     output:
