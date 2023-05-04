@@ -25,7 +25,7 @@ installed.
 - [ ] Activate the workflow environment:
 
   ```
-  conda activte hic-workflow
+  conda activate hic-workflow
   ```
 
 - [ ] Create alias for `snakemake` so that it remains accessible even if
