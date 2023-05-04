@@ -37,8 +37,7 @@ if __name__ == '__main__':
 
     mtrx = c.matrix(balance = not args.raw_counts)[:]
 
-    #mx = np.quantile(mtrx[np.isfinite(mtrx)], 0.99)
-    mx = 0.00045
+    mx = np.quantile(mtrx[np.isfinite(mtrx)], 0.99)
     mtrx[mtrx > mx] = mx
     m = mtrx * len(cm.viridis.colors)/float(mx)
     axMtrx = plt.axes([0.95, 0, 0.95, 0.95], frameon=False)
