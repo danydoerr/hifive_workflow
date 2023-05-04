@@ -34,12 +34,12 @@ rule all:
 #        expand('%s/m{min_int}_r{res}_s{superres}:{alg}/{hic_map}.trv' %HIC_MAPS_DIR,
 #                min_int = MIN_INTS, res = RESOLUTIONS, superres = SUPER_RES,
 #                alg = NORM_ALGS, hic_map = HIC_MAPS),
-#        expand('%s/{sample}:{tissue}/m{min_int}_r{res}_s{superres}:{alg}.csv' %STATS_DIR,
-#                sample = map(lambda x: '-'.join(x), combinations(sorted(
-#                set(map(lambda x: x.split(':', 1)[0], HIC_MAPS))), 2)), 
-#                tissue = set(map(lambda x: x.split(':', 1)[1], HIC_MAPS)),
-#                min_int = MIN_INTS, res = RESOLUTIONS, superres = SUPER_RES,
-#                alg = NORM_ALGS),
+        expand('%s/{sample}:{tissue}/m{min_int}_r{res}_s{superres}:{alg}.csv' %STATS_DIR,
+                sample = map(lambda x: '-'.join(x), combinations(sorted(
+                set(map(lambda x: x.split(':', 1)[0], HIC_MAPS))), 2)), 
+                tissue = set(map(lambda x: x.split(':', 1)[1], HIC_MAPS)),
+                min_int = MIN_INTS, res = RESOLUTIONS, superres = SUPER_RES,
+                alg = NORM_ALGS),
         expand('%s/{alg}/m{min_int}_r{res}_s{superres}/{hic_map}.pdf' %HIC_MAPS_DIR,
                 min_int = MIN_INTS, res = RESOLUTIONS[:2], superres = SUPER_RES,
                 alg = NORM_ALGS, hic_map = HIC_MAPS + TISSUES),
