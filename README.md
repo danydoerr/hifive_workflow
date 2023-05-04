@@ -37,7 +37,7 @@ installed.
 
 - [ ] Edit `config.yaml` to 
 
-  1. specify samtools binary (you can find this out by typing `which samtools`)
+  1. specify samtools binary in `samtools_bin` (you can find this out by typing `which samtools`)
   2. adjust `min_interactions` that indicates the minimum number of ditags between
      two genomic regions so that they are considered to be interacting with
      each other (you can specify multiple thresholds, which is encouraged)
