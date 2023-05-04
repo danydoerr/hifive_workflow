@@ -39,7 +39,7 @@ installed.
 
   1. specify samtools binary (you can find this out by typing `which samtools`)
   2. adjust `min_interactions` that indicates the minimum number of ditags between
-     two genomic regions so that they are considered to be interactiving with
+     two genomic regions so that they are considered to be interacting with
      each other (you can specify multiple thresholds, which is encouraged)
   3. adjust `resolution` that determines the coarseness of the hic-map (you can
      specify here multiple resolutions which is encouraged)
