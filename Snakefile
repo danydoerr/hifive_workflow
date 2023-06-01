@@ -71,32 +71,32 @@ rule link_bam_files:
         hic_maps = chain(*[map(lambda x: x[1], DATASET.items(s)) for s in
             HIC_MAPS])
     output:
-        expand('%s/{hic_map}_{part}.orig.bam' %BAM_DIR, hic_map=HIC_MAPS,
+        expand('%s/{hic_map}_{part}.bam' %BAM_DIR, hic_map=HIC_MAPS,
                 part = ('part1', 'part2'))
     run:
         from os import symlink, path
         for m in HIC_MAPS:
             symlink(path.relpath(DATASET.get(m, '1'), BAM_DIR), \
-                    path.join(BAM_DIR, '%s_part1.orig.bam' %m))
+                    path.join(BAM_DIR, '%s_part1.bam' %m))
             symlink(path.relpath(DATASET.get(m, '2'), BAM_DIR), \
-                    path.join(BAM_DIR, '%s_part2.orig.bam' %m))
+                    path.join(BAM_DIR, '%s_part2.bam' %m))
 
 
-rule sort_bam_files:
-    input:
-        '%s/{hic_map}_{part}.orig.bam' %BAM_DIR
-    output:
-        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam' %BAM_DIR
-    shell:
-        '%s sort {input} > {output}' %SAMTOOLS_BIN
-
-rule index_bam_files:
-    input:
-        '%s/{hic_map}_{part}.bam' %BAM_DIR
-    output:
-        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam.bai' %BAM_DIR
-    shell:
-        '%s index {input}' %SAMTOOLS_BIN
+#rule sort_bam_files:
+#    input:
+#        '%s/{hic_map}_{part}.orig.bam' %BAM_DIR
+#    output:
+#        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam' %BAM_DIR
+#    shell:
+#        '%s sort {input} > {output}' %SAMTOOLS_BIN
+#
+#rule index_bam_files:
+#    input:
+#        '%s/{hic_map}_{part}.bam' %BAM_DIR
+#    output:
+#        '%s/{hic_map,[^_.]+}_{part,[^_.]+}.bam.bai' %BAM_DIR
+#    shell:
+#        '%s index {input}' %SAMTOOLS_BIN
         
 rule hic_data:
     input:
