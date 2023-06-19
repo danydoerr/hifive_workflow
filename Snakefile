@@ -45,7 +45,8 @@ rule all:
                 alg = NORM_ALGS, hic_map = HIC_MAPS + TISSUES),
         expand('%s/{alg}/m{min_int}_r{res}_s{superres}/{hic_map}_{chr}.pdf' %HIC_MAPS_DIR,
                 min_int = MIN_INTS, res = RESOLUTIONS[:2], superres = SUPER_RES,
-                alg = NORM_ALGS, hic_map = HIC_MAPS + TISSUES, chr=[1,3,4,5]),
+                alg = NORM_ALGS, hic_map = HIC_MAPS + TISSUES,
+                chr=RESTRICT_CHROMOSOMES),
         expand('%s/{alg}/{sample}:{tissue}.pdf' %STATS_DIR, 
                 sample = map(lambda x: '-'.join(x), combinations(REPLICATES,
                 2)), tissue = TISSUES, alg=NORM_ALGS),
@@ -272,7 +273,7 @@ rule show_chromosome:
         mtrx = '%s/{alg}/{hic_map_dir}/{tissue}.cool' %HIC_MAPS_DIR,
         dummy = '%s/{alg}/{hic_map_dir}/{tissue}.cool.dummy' %HIC_MAPS_DIR,
     output:
-        '%s/{alg,[^/]+}/{hic_map_dir,[^/]+}/{tissue,[^/_]+}_{chr,[^/_]+}.pdf' %HIC_MAPS_DIR,
+        '%s/{alg,[^/]+}/{hic_map_dir,[^/]+}/{tissue,[^/_]+}_{chr,[^/]+}.pdf' %HIC_MAPS_DIR,
     shell:
         '%s show -b -s log10 --cmap viridis --dpi 600 ' %COOLER_BIN +
         '-o {output} {input.mtrx} {wildcards.chr}'
