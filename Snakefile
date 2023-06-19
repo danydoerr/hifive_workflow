@@ -103,8 +103,8 @@ rule hic_data:
     input:
         part1 = '%s/{hic_map}_part1.bam' %BAM_DIR,
         part2 = '%s/{hic_map}_part2.bam' %BAM_DIR,
-        idx1 = '%s/{hic_map}_part1.bam.bai' %BAM_DIR,
-        idx2 = '%s/{hic_map}_part2.bam.bai' %BAM_DIR,
+#        idx1 = '%s/{hic_map}_part1.bam.bai' %BAM_DIR,
+#        idx2 = '%s/{hic_map}_part2.bam.bai' %BAM_DIR,
         fend = FEND_FILE
     output:
         '%s/{hic_map,.*:.*}.data' %PRJ_DIR
@@ -121,10 +121,10 @@ rule hic_data_full:
                 BAM_DIR, x, wildcards.tissue), REPLICATES)),
         part2 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part2.bam' %(
                 BAM_DIR, x, wildcards.tissue), REPLICATES)),
-        idx1 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part1.bam.bai' %(
-                BAM_DIR, x, wildcards.tissue), REPLICATES)),
-        idx2 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part2.bam.bai' %(
-                BAM_DIR, x, wildcards.tissue), REPLICATES)),
+#        idx1 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part1.bam.bai' %(
+#                BAM_DIR, x, wildcards.tissue), REPLICATES)),
+#        idx2 = lambda wildcards: list(map(lambda x: '%s/%s:%s_part2.bam.bai' %(
+#                BAM_DIR, x, wildcards.tissue), REPLICATES)),
         fend = FEND_FILE
     output:
         '%s/{tissue}.data' %PRJ_DIR
