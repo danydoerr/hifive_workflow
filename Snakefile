@@ -55,7 +55,9 @@ rule all:
                 super_res=SUPER_RES),
         expand('%s/{alg}/{sample_tissue}_m{min_int}_s{super_res}.cool' %HIC_MAPS_DIR, 
                 alg=NORM_ALGS, sample_tissue=HIC_MAPS, min_int=MIN_INTS,
-                super_res=SUPER_RES)
+                super_res=SUPER_RES),
+#        expand('%s/{alg}/{tissue}.pdf' %STATS_DIR, alg=NORM_ALGS,
+#                tissue=TISSUES)
 
 rule digest_to_fend:
     input:
